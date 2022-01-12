@@ -12,10 +12,18 @@ python_data2 = json.loads(json_data)
 
 
 
-url = 'http://127.0.0.1:8000/studentsall'
-r = requests.get(url = url)
-print(r)
-data = r.json()
-print(data)
+url = 'http://127.0.0.1:8000/studentcreate/'
+#r = requests.get(url = url)
+#print(r)
+#data = r.json()
+#print(data)
 
- 
+
+data = {
+    'name': 'Ankit',
+    'roll':4,
+    'city':'Lakhisarai'
+}
+json_data = json.dumps(data)
+r = requests.post(url = url, data=json_data)
+print(r.json())

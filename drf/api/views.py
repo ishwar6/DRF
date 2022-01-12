@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from .serializers import StudentSerilizer
 from rest_framework.renderers import JSONRenderer
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse # Data to be dumped into json. By default only dict objects are allowed in JsonResponse 
 from .models import Student
+import io
+from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
 
 
 def student_list_old(request, pk):
@@ -33,3 +36,21 @@ def student_all(request):
     return JsonResponse(serializer.data, safe = False)
 
 
+@csrf_exempt
+def student_create(request):
+    print("s")
+    if request.method == "POST":
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        print(stream)
+        python_data = JSONParser().parse(stream)
+        serializer = StudentSerilizer(data=python_data)
+        if serializer.is_valid():
+            serializer.save()
+            res = {'msg':'Data Created'}
+            #json_data = JSONRenderer().render(res)
+            #return HttpResponse(json_data, content_type = "application/json")
+            return JsonResponse(res) 
+        else:
+            json_data = JSONRenderer().render(serializer.errors)
+            return HttpResponse(json_data, content_type = "application/json")
