@@ -1,3 +1,4 @@
+from django.db.models import query
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework import serializers
@@ -120,3 +121,21 @@ class StudentAll(APIView):
         return Response({'msg':'Deleted'})
 
 
+
+
+
+#Generic API View and ModelMixin
+
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
+from rest_framework.generics import GenericAPIView
+
+class StudentMList(GenericAPIView, ListModelMixin,CreateModelMixin ):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerilizer
+
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)    

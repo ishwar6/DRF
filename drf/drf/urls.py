@@ -10,5 +10,8 @@ urlpatterns = [
 
 path('studentclass/', views.StudentAll.as_view()),
 path('studentclass/<int:pk>', views.StudentAll.as_view()),
+path('studentclassm/', views.StudentMList.as_view())
+
+
 
 ]
