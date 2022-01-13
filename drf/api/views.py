@@ -126,7 +126,7 @@ class StudentAll(APIView):
 
 #Generic API View and ModelMixin
 
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
+from rest_framework.mixins import ListModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 from rest_framework.generics import GenericAPIView
 
 class StudentMList(GenericAPIView, ListModelMixin,CreateModelMixin ):
@@ -139,3 +139,20 @@ class StudentMList(GenericAPIView, ListModelMixin,CreateModelMixin ):
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)    
+
+#retrieve, update and delete needs a pk value to pick specific object instance. 
+
+class StudentM_URD(GenericAPIView,  UpdateModelMixin, RetrieveModelMixin ,DestroyModelMixin ):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerilizer
+
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)    
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)    
+
