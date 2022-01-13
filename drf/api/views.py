@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from rest_framework import status
+from rest_framework import serializers
+from rest_framework.serializers import Serializer
 from .serializers import StudentSerilizer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse, JsonResponse # Data to be dumped into json. By default only dict objects are allowed in JsonResponse 
@@ -6,6 +9,8 @@ from .models import Student
 import io
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 def student_list_old(request, pk):
@@ -57,3 +62,31 @@ def student_create(request):
 
 
 
+
+class StudentAll(APIView):
+    def get(self, request, pk=None, format=None):
+        data = {}
+        if pk is not None:
+            s = Student.objects.get(id=pk)
+            serializer = StudentSerilizer(s)
+            return Response(serializer.data)
+        s =Student.objects.all()
+        serializer = StudentSerilizer(s, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request,  format=None):
+        serializer = StudentSerilizer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Data Created'}, status=status.HTTP_201_CREATED)
+        return  Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    def put(self, request, pk, format=None):
+        s = Student.objects.get(id = pk)
+        serializer = StudentSerilizer(s, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Data updated fully'})
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
