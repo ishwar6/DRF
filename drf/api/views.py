@@ -62,7 +62,19 @@ def student_create(request):
 
 
 
+#BY USING MODEL SERIALISER
 
+'''
+class StudentSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+
+PATH USED: 
+path('studentclass/', views.StudentAll.as_view()),
+path('studentclass/<int:pk>', views.StudentAll.as_view()),
+'''
 class StudentAll(APIView):
     def get(self, request, pk=None, format=None):
         data = {}
@@ -90,3 +102,21 @@ class StudentAll(APIView):
             return Response({'msg':'Data updated fully'})
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+    def patch(self, request, pk, format=None):
+        s = Student.objects.get(id = pk)
+        serializer = StudentSerilizer(s, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Data updated Partially'})
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request, pk, format=None):
+        s =  Student.objects.get(id = pk)
+        s.delete()
+        return Response({'msg':'Deleted'})
+
+
