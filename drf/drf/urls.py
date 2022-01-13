@@ -10,9 +10,14 @@ urlpatterns = [
 
 path('studentclass/', views.StudentAll.as_view()),
 path('studentclass/<int:pk>', views.StudentAll.as_view()),
-path('studentclassm/', views.StudentMList.as_view()),
-path('studentclassm/<int:pk>', views.StudentM_URD.as_view())
 
+#for mixins 
+path('studentclassm/', views.StudentMList.as_view()),
+path('studentclassm/<int:pk>', views.StudentM_URD.as_view()),
+
+#for generic views
+path('studentclassg/', views.StudentListCreateGeneric.as_view()),
+path('studentclassg/<int:pk>', views.StudentRUD.as_view())
 
 
 

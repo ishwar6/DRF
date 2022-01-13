@@ -127,7 +127,7 @@ class StudentAll(APIView):
 #Generic API View and ModelMixin
 
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, RetrieveUpdateDestroyAPIView
 
 class StudentMList(GenericAPIView, ListModelMixin,CreateModelMixin ):
     queryset = Student.objects.all()
@@ -155,4 +155,64 @@ class StudentM_URD(GenericAPIView,  UpdateModelMixin, RetrieveModelMixin ,Destro
     
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)    
+
+
+
+
+#GENERICS:
+
+
+#these generics extends above mixins
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView
+
+class StudentListGeneric(ListAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerilizer
+
+
+class StudentCreateGeneric(CreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerilizer
+
+'''
+DEFINED URLS FOR BELOW 2 Generic View Classes
+path('studentclassg/', views.StudentListCreateGeneric.as_view()),
+path('studentclassg/<int:pk>', views.StudentRUD.as_view())
+
+'''
+
+#both list and create in same class
+class StudentListCreateGeneric(ListCreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerilizer
+
+#needs pk
+class StudentRUD(RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerilizer
+
+
+#VIEWSETS
+#Routers are present here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
