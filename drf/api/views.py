@@ -194,8 +194,11 @@ class StudentRUD(RetrieveUpdateDestroyAPIView):
 
 #VIEWSETS
 #Routers are present here
+#viewsets doen
 
+from rest_framework.viewsets import ViewSet
 
+class StudentRouter(ViewSet):
 
 
 
