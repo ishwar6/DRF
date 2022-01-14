@@ -198,7 +198,7 @@ class StudentRUD(RetrieveUpdateDestroyAPIView):
 
 from rest_framework.viewsets import ViewSet
 
-class  StudentRouter(ViewSet):
+class  StudentRouter(ViewSet) :
 
 
 
