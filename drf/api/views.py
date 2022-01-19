@@ -199,6 +199,7 @@ class StudentRUD(RetrieveUpdateDestroyAPIView):
 from rest_framework.viewsets import ViewSet
 
 class  StudentRouter(ViewSet) :
+    queryset = Student.objects.all()
 
 
 
