@@ -27,6 +27,8 @@ def student_list_old(request, pk):
 
 def student_list(request, pk):
     s = Student.objects.get(id=pk)
+    if s:
+        print(s)
     serializer = StudentSerilizer(s)
     return JsonResponse(serializer.data)
 
