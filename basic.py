@@ -1,3 +1,4 @@
+import threading
 from threading import Thread
 import json
 import requests
@@ -40,10 +41,13 @@ def get_data(id):
     print(data)
 
 
-def target_function(a, b):
-    print(a, b)
+def display():
+    for i in range(4):
+        print("Child thread")
 
 
-t = Thread(target=target_function, args=(2, 3))
+t = Thread(target=display)
 t.start()
-print(t)
+
+for i in range(3):
+    print("Main Thread")
