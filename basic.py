@@ -62,7 +62,7 @@ def thread_delay(thread_name, delay):
         print(thread_name, '-------->', time.time())
 
 
-thread_delay('a', 4)
+#thread_delay('a', 4)
 
 
 def volume_cube(a):
@@ -73,5 +73,13 @@ def volume_square(a):
     print("Volume of Square:", a*a)
 
 
-t1 = threading.Thread(target=volume_cube, args=(2))
-t2 = threading.Thread(target=volume_square, args=(3))
+t1 = threading.Thread(target=volume_cube, args=(2,))
+t2 = threading.Thread(target=volume_square, args=(3,))
+
+t1.start()
+t2.start()
+
+t1.join()
+t2.join()
+
+print("Thread execution is complete!")
